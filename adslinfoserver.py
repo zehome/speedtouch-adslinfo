@@ -15,11 +15,8 @@ from SocketServer import ThreadingMixIn
 
 
 MODEM_HOST="10.0.0.138"
-#MODEM_USER="Administrator"
-#MODEM_PASSWORD=""
-MODEM_USER="admin"
-MODEM_PASSWORD="admin"
-
+MODEM_USER="Administrator"
+MODEM_PASSWORD=""
 
 def get_synchro_sth():
     vi = sys.version_info
@@ -65,6 +62,7 @@ def get_synchro_7432(tn):
     for line in data.split("\n"):
         if line.startswith("Bandwidth"):
             synchro = line.split(" ")[6]
+            synchro = synchro and synchro.strip() or synchro
     return synchro.split("/")
 
 class ST546HTTPHandler(BaseHTTPServer.BaseHTTPRequestHandler):
@@ -112,6 +110,12 @@ if __name__ == "__main__":
             default=False)
 
     values, args = parser.parse_args()
+
+    # Overwrite defaults using env
+    MODEM_HOST=os.environ.get("STH_HOST", MODEM_HOST)
+    MODEM_USER=os.environ.get("STH_USER", MODEM_USER)
+    MODEM_PASSWORD=os.environ.get("STH_PASSWORD", MODEM_PASSWORD)
+
     if "oneshot" in args:
         print "Synchro [Down, Up]: %s" % (get_synchro_sth(),)
         sys.exit(0)
