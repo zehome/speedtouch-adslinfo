@@ -114,7 +114,7 @@ if __name__ == "__main__":
     # Overwrite defaults using env
     MODEM_HOST=os.environ.get("STH_HOST", MODEM_HOST)
     MODEM_USER=os.environ.get("STH_USER", MODEM_USER)
-    MODEM_PASSWORD=os.environ.get("STH_PASSWORD", MODEM_PASSWORD)
+    MODEM_PASSWORD=os.environ.get("STH_PASS", MODEM_PASSWORD)
 
     if "oneshot" in args:
         print "Synchro [Down, Up]: %s" % (get_synchro_sth(),)
